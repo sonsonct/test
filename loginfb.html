@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Facebook Authentication</title>
+  <!-- Include Firebase SDK -->
+  
+</head>
+<body>
+  <h1>Firebase Facebook Authentication</h1>
+  <button id="facebook-login">Sign in with Facebook</button>
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-auth.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyBwnWMo4_qO4i_j87uvHEDCip_Fa5BUuj4",
+      authDomain: "blog-414903.firebaseapp.com",
+      projectId: "blog-414903",
+      appId: "1:931300903738:web:4024165916b49b1e835e03",
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    document.getElementById('facebook-login').addEventListener('click', function() {
+      // Ensure firebase.auth() is available and initialized
+      if (firebase.auth) {
+        // Create an instance of the Facebook provider object
+        var provider = new firebase.auth.FacebookAuthProvider();
+        // Sign in with Facebook popup
+        firebase.auth().signInWithPopup(provider)
+          .then(function(result) {
+            // User signed in successfully
+            var user = result.user;
+            console.log(user);
+          })
+          .catch(function(error) {
+            // Handle errors
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+          });
+      } else {
+        console.error("firebase.auth is not available or initialized.");
+      }
+    });
+  </script>
+</body>
+</html>
