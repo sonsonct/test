@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Push Notification Form câcscascas</title>
+</head>
+<body>
+    <form id="notificationForm">
+        <input type="text" name="deviceToken" placeholder="Device Token">
+        <input type="text" name="title" placeholder="Title">
+        <input type="text" name="message" placeholder="Message">
+        <input type="submit" value="Send Notification">
+    </form>
+
+    <script>
+        document.getElementById('notificationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var formData = new FormData(this);
+            var deviceToken = formData.get('deviceToken');
+            var title = formData.get('title');
+            var message = formData.get('message');
+
+            fetch('https://fcm.googleapis.com/fcm/send', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'key=AAAAptCMvh8:APA91bHg-s5pcTR2TmuyF5uzLNPQfckxbwcGnZ85DcU9bJFiZqh-N9yvQISRdrWpIIZ85NDgieizg6qrZeE8UKO5PZqsMEOwqydELW6Pw7iAt-MnJWM97C0fTsKdDto0LGkiDAhcD0N3',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    to: deviceToken,
+                    data: {
+                        title: title,
+                        message: message,
+                        icon: 'https://res.cloudinary.com/dzrcy6hfp/image/upload/v1715056317/upload/w3qlvre1mz3xwddbfuf0.png',
+                    }
+                })
+            })
+            .then(response => {
+                console.log('Notification sent:', response);
+            })
+            .catch(error => {
+                console.error('Error sending notification:', error);
+            });
+        });
+    </script>
+</body>
+</html>
